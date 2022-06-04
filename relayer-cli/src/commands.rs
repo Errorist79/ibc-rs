@@ -128,20 +128,6 @@ impl Configurable<Config> for CliCmd {
                 None
             }
         }
-    }
-
-    /// Apply changes to the config after it's been loaded, e.g. overriding
-    /// values in a config file using command-line options.
-    ///
-    /// This can be safely deleted if you don't want to override config
-    /// settings from command-line options.
-    fn process_config(&self, mut config: Config) -> Result<Config, FrameworkError> {
-        // Alter the memo for all chains to include a suffix with Hermes build details
-        let web = "https://hermes.informal.systems";
-        let suffix = format!("{} {} ({})", CliCmd::name(), clap::crate_version!(), web);
-        for ccfg in config.chains.iter_mut() {
-            ccfg.memo_prefix.apply_suffix(&suffix);
-        }
 
         // For all commands except for `start` Hermes retries
         // for a prolonged period of time.
